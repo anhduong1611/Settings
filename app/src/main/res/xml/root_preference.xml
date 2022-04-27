@@ -1,0 +1,51 @@
+    <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory app:title="@string/settings_control" >
+        <SwitchPreference
+            app:key="sound"
+            app:icon="@drawable/sound"
+            app:title="@string/setting_sound" />
+        <SwitchPreference
+            app:icon="@drawable/vibrate1"
+            app:key="vi"
+            app:title="@string/setting_vibrate" />
+        <SwitchPreference
+            app:key="copy"
+            app:icon="@drawable/copy"
+            app:title="@string/setting_copy" />
+    </PreferenceCategory>
+    <PreferenceCategory app:title="@string/setting_chung">
+        <SwitchPreference
+            app:icon="@drawable/dark"
+            app:key="v"
+            app:summaryOn="@string/setting_off"
+            app:summaryOff="@string/setting_on"
+            app:title="@string/setting_ligthdark"
+            app:defaultValue="false"/>
+        <Preference
+            app:icon="@drawable/language"
+            app:key="language"
+            app:title="@string/setting_language"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+
+    <PreferenceCategory app:title="@string/setiing_intro">
+        <Preference
+            app:icon="@drawable/introduction"
+            app:key="introduc"
+            app:title="@string/setiing_intro" />
+        <Preference
+            app:icon="@drawable/version"
+            app:key="version"
+            app:title="@string/setting_version" />
+        <Preference
+            app:icon="@drawable/help"
+            app:key="intro"
+            app:title="@string/setting_huongdan" />
+        <Preference
+            app:icon="@drawable/feeback"
+            app:key="feedback"
+            app:title="@string/feedback"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>
