@@ -2,6 +2,7 @@ package com.example.scanqrcode.fragment;
 
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
@@ -10,6 +11,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.Ringtone;
@@ -32,6 +34,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.media.app.NotificationCompat;
 
@@ -40,6 +44,7 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.example.scanqrcode.EAN;
 import com.example.scanqrcode.R;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.Result;
 import android.os.Vibrator;
 @RequiresApi(api = Build.VERSION_CODES.Q)
@@ -79,11 +84,30 @@ public class Fragment_Scan extends Fragment {
         ZoomCamera();
         FlashSwitch();
         RotateCamera();
-
+        //PermissonCamera();
         return view;
     }
 
-//    public void handleResult(Result rawResult) {
+    private void PermissonCamera() {
+      if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.CAMERA)){
+          Snackbar.make(getView(),"Cấp quyền đi",Snackbar.LENGTH_INDEFINITE).setAction("ok", new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},1);
+              }
+          }).show();
+      }
+      else {
+        // Quyền truy cập chưa được cấp, hỏi trực tiêp người dùng.
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA},1);
+    }
+    }
+
+    private void makeRequest() {
+        ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},1);
+    }
+
+    //    public void handleResult(Result rawResult) {
 //        try {
 //            Uri beepSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + File.pathSeparator + File.separator + getPackageName() + "/raw/beep.wav");
 //            Ringtone r = RingtoneManager.getRingtone(getActivity(), beepSound);

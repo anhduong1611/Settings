@@ -19,12 +19,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.scanqrcode.R;
+import com.google.android.material.snackbar.Snackbar;
 
 public class Fragment_Scan_Home extends Fragment{
     View view;
@@ -44,22 +46,22 @@ public class Fragment_Scan_Home extends Fragment{
         view = inflater.inflate(R.layout.fragment_setting, container, false);
         taolao = view.findViewById(R.id.bb);
         taolao.setOnClickListener(new OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onClick(View view) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
-                            new AlertDialog.Builder(getActivity()).setCancelable(false).setTitle("Chưa cấp quyền cam")
-                                    .setMessage("Mày có cấp quyền không thì bảo")
-                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 1);
-                                        }
-                                    }).show();
-                        } else {
-                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 1);
-                        }
+                    if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.CAMERA)){
+                        Snackbar.make(getView(),"Cấp quyền đi",Snackbar.LENGTH_INDEFINITE).setAction("ok", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},1);
+                            }
+                        }).show();
+                    }
+                    else {
+                        // Quyền truy cập chưa được cấp, hỏi trực tiêp người dùng.
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA},1);
+                    }
                     } else {
                         Fragment_Scan fragment2 = new Fragment_Scan();
                         FragmentManager fragmentManager = getFragmentManager();
@@ -70,7 +72,7 @@ public class Fragment_Scan_Home extends Fragment{
                         fragmentTransaction.commit();
                     }
                 }
-            }
+
 
         });
         return view;
